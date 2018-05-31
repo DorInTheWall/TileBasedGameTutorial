@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en-UK">
+
+	<head>
+		<title>Pacman Clone</title>
+		
+	
+	<script type = "text/javascript">
+		
+		let ctx = null;
+		let tileW = 40, tileH = 40; //Size of tiles
+		let mapW = 20, mapH = 20; //Number of tiles on the map
+		
+		let currentSecond = 0, frameCount = 0, framesLastSecond = 0;
+		
+		let gameMap = [
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 
+			0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 
+			0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+			0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+			0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 
+			0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 
+			0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 
+			0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+			0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 
+			0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 
+			0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 
+			0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+			0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 
+			0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 
+			0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		];
+		
+		window.onload = function()
+		{			
+			ctx = document.getElementById('game').getContext("2d");
+			requestAnimationFrame(drawGame);
+			ctx.font = "bold 10pt sans-serif";
+		
+		};
+		
+		
+		
+		function drawGame(){
+		
+			if(ctx == null)
+				return;
+			
+			//Calculate the current second (Keeps track of framerate)
+			let sec = Math.floor(Date.now()/1000);
+			//If current second is not correct, correct it. Nope, me either.
+			if(sec != currentSecond){
+				currentSecond = sec;
+				framesLastSecond = frameCount;
+				frameCount = 1;
+			} else {
+				frameCount++;
+			}
+		
+			//draw the map - CHANGE THIS TO NORMAL WAY ONCE YOU UNDERSTAND ALL THIS!!!
+			
+			for (let y = 0; y < mapH; y++){
+				for (let x = 0; x < mapW; x++){
+				
+					switch(gameMap[((y * mapW) + x)]){
+						case 0: ctx.fillStyle = "black";
+								break;
+						case 1: ctx.fillStyle = "white";
+								break;
+						deafault: ctx.fillStyle = "green";
+					}
+					
+					ctx.fillRect(x * tileW, y * tileH, tileW, tileH);
+				}
+			} //external for
+			
+			ctx.fillStyle = "yellow";
+			ctx.fillText('FPS: ' + framesLastSecond, 10, 20);
+			
+			requestAnimationFrame(drawGame);
+			
+		
+		};
+		
+	
+	</script>
+	</head>
+	
+	
+	<body>
+	
+		<canvas id="game" width="800" height="800"></canvas>
+		Game
+	</body>
+
+</html>
